@@ -1,4 +1,62 @@
-html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
-.controls{display:flex;align-items:center;gap:.5rem;padding:10px}
-#mapdiv{height:70vh;width:100%;border:1px solid #999;border-radius:10px;background:#e8eef7}
-.answers{padding:10px}
+:root{
+  --bg:#0b1220;      /* fond sombre */
+  --fg:#f2f4ff;      /* texte */
+  --muted:#b7c2ff;   /* texte atténué */
+  --card:#171f34;    /* cartes/panneaux */
+  --link:#8fd3ff;    /* liens */
+  --border:rgba(255,255,255,.12);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height:1.55;
+}
+
+/* Barre de contrôles */
+.controls{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  padding:1rem 1.25rem;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+}
+
+/* Map */
+#mapdiv{
+  width:100%;
+  height:72vh;
+  border:1px solid var(--border);
+  border-radius:16px;
+  margin:1rem auto;
+  max-width:1100px;
+  background:#0f1628;
+}
+
+/* Bloc réponses */
+.answers{
+  max-width:1100px;
+  margin:1rem auto 2rem;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1rem 1.25rem;
+}
+.answers h2{ margin:.25rem 0 .75rem }
+.answers p{ margin:.55rem 0 }
+
+/* Liens et contrôles leaflet */
+a{ color:var(--link) }
+.leaflet-control-layers{ border-radius:12px; overflow:hidden }
+select{
+  background:#0f1628;
+  color:var(--fg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.35rem .6rem;
+}
