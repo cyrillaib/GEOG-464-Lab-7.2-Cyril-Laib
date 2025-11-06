@@ -1,13 +1,13 @@
-/* GEOG 464 – Lab 7 Web Atlas */
+/* GEOG 464 – Lab 7 Web Atlas (template-aligned) */
 
 let myMap = null;
 let currentDataLayer = null;
 
-// Canonical raw URLs (safer on GitHub Pages)
+// Canonical raw URLs (reliable on GitHub Pages)
 const STATIONS_URL   = "https://raw.githubusercontent.com/brubcam/GEOG-464_Lab-7/main/DATA/train-stations.geojson";
 const MEGACITIES_URL = "https://raw.githubusercontent.com/brubcam/GEOG-464_Lab-7/main/DATA/megacities.geojson";
 
-// Helper: visible error banner (so issues are obvious on Pages)
+// Optional visible error banner (to debug on Pages)
 function showError(msg){
   const el = document.createElement('div');
   el.style.cssText = "position:fixed;top:0;left:0;right:0;padding:.6rem 1rem;background:#b00020;color:white;font:14px/1.4 system-ui;z-index:9999";
@@ -15,6 +15,7 @@ function showError(msg){
   document.body.appendChild(el);
 }
 
+// Fetch + add layer
 function fetchData(url){
   return fetch(url, { mode: "cors", cache: "no-store" })
     .then(r => {
@@ -35,32 +36,31 @@ function fetchData(url){
     });
 }
 
-function generateCircles(feature, latlng){
-  return L.circleMarker(latlng);
-}
+// Symbol: convert to circle markers
+function generateCircles(feature, latlng){ return L.circleMarker(latlng); }
 
+// Symbol styling + Q3 cyan for postal present
 function styleAll(feature, latlng){
   const styles = {
-    stroke:true, color:'#000', opacity:1, weight:1,
-    fillColor:'#fff', fillOpacity:0.5, radius:9
+    stroke: true, color: '#000', opacity: 1, weight: 1,
+    fillColor: '#fff', fillOpacity: 0.5, radius: 9
   };
 
   if (feature.geometry && feature.geometry.type === "Point"){
     styles.stroke = true;
   }
 
-  // Q3: cyan if a postal code exists
   const props = feature.properties || {};
   const hasPostal = Object.keys(props).some(k => /postal/i.test(k) && props[k]);
   if (hasPostal) styles.fillColor = "cyan";
 
-  // Optional radius scaling for megacities
   const pop = Number(props.population);
   if (!Number.isNaN(pop)) styles.radius = Math.max(6, Math.min(22, Math.sqrt(pop)/300));
 
   return styles;
 }
 
+// Popups
 function addPopups(feature, layer){
   const props = feature.properties || {};
   const nameKey = Object.keys(props).find(k => /name|station/i.test(k));
@@ -71,6 +71,7 @@ function addPopups(feature, layer){
   layer.bindPopup(`<strong>${title}</strong><br/><dl class="props">${list}</dl>`, { maxWidth: 300 });
 }
 
+// Loader (IMPORTANT: target 'mapdiv' per template)
 function loadMap(mapid){
   try { if (myMap) myMap.remove(); }
   catch(e){ console.log("no map to delete"); }
@@ -80,7 +81,8 @@ function loadMap(mapid){
     const cartoLight = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       { maxZoom:20, attribution:"&copy; OpenStreetMap & CARTO" });
 
-    myMap = L.map("map", { center:[20,0], zoom:2, layers:[cartoLight] });
+    // TEMPLATE ID:
+    myMap = L.map("mapdiv", { center:[20,0], zoom:2, layers:[cartoLight] });
     L.control.layers({ "CARTO Light": cartoLight, "OpenStreetMap": osm }, {}).addTo(myMap);
 
     if (mapid === "mapa"){
@@ -96,17 +98,17 @@ function loadMap(mapid){
   }
 }
 
+// Q7: add the dropdown listener with JS; auto-load Map A
 document.addEventListener("DOMContentLoaded", () => {
   const sel = document.getElementById("mapdropdown");
   if (!sel) return;
 
-  // Q7: add listener in JS
   sel.addEventListener("change", e => {
     const val = e.target.value;
     if (val !== "map0") loadMap(val);
   });
 
-  // Auto-load Map A on first visit and reflect it in the dropdown
+  // Auto-load Map A (also set dropdown value)
   sel.value = "mapa";
   loadMap("mapa");
 });
