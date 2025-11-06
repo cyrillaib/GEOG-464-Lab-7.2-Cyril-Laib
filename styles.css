@@ -1,0 +1,4 @@
+html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+.controls{display:flex;align-items:center;gap:.5rem;padding:10px}
+#mapdiv{height:70vh;width:100%;border:1px solid #999;border-radius:10px;background:#e8eef7}
+.answers{padding:10px}
