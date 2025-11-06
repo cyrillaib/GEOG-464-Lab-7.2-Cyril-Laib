@@ -5,14 +5,35 @@
     <meta name="viewport" content="width=device-width" />
     <title>GEOG 464 - Lab 7</title>
 
-    <link rel="stylesheet" href="./styles.css" />
+    <!-- Leaflet (CDN) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="./styles.css?v=2" />
 
-    <style>#mapdiv{width:100%;height:80vh}</style>
+    <!-- ====== CSS INLINE (thème sombre) ====== -->
+    <style>
+      :root{
+        --bg:#0b1220; --fg:#f2f4ff; --muted:#b7c2ff; --card:#171f34; --link:#8fd3ff;
+        --border:rgba(255,255,255,.12);
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{margin:0;background:var(--bg);color:var(--fg);
+           font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+      .controls{display:flex;align-items:center;gap:.6rem;padding:1rem 1.25rem;
+                background:var(--card);border-bottom:1px solid var(--border)}
+      #mapdiv{width:100%;height:72vh;max-width:1100px;margin:1rem auto;
+              border:1px solid var(--border);border-radius:16px;background:#0f1628}
+      .answers{max-width:1100px;margin:1rem auto 2rem;background:var(--card);
+               border:1px solid var(--border);border-radius:16px;padding:1rem 1.25rem}
+      .answers h2{margin:.25rem 0 .75rem}.answers p{margin:.55rem 0}
+      a{color:var(--link)}
+      select{background:#0f1628;color:var(--fg);border:1px solid var(--border);
+             border-radius:10px;padding:.35rem .6rem}
+      .leaflet-control-layers{border-radius:12px;overflow:hidden}
+    </style>
   </head>
   <body>
+    <!-- Contrôles -->
     <section class="controls">
       <label for="mapdropdown">Load a map:</label>
       <select id="mapdropdown">
@@ -22,8 +43,10 @@
       </select>
     </section>
 
+    <!-- Carte -->
     <div id="mapdiv" role="region" aria-label="Interactive map"></div>
 
+    <!-- Réponses -->
     <div id="div1" class="answers">
       <h2>Written Answers</h2>
       <p><strong>Q2.</strong> In <code>styleAll(feature, latlng)</code> we build a plain JS object
@@ -35,6 +58,7 @@
       <p><strong>Q6.</strong> <code>fill=false</code> makes the circle hollow; <code>_radius=80</code> makes it large.</p>
     </div>
 
+    <!-- ====== JS : on garde ton main.js qui marche ====== -->
     <script src="./main.js"></script>
   </body>
 </html>
